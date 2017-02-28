@@ -28,6 +28,9 @@ public:
 	void addFront(const E& e);		// add to front of list
 	void removeFront();			// remove front item list
 	int size() const;					// list size
+	int NameNumber(string);			// Function for finding the amount of a certain name
+	int LowWeight();			// Function for finding the amount of low weight birth 
+	string MostPopName();
 private:
 	SNode<E>* head;				// head of the list
 	int     n;							// number of items
@@ -77,4 +80,62 @@ void SLinkedList<E>::removeFront() {		// remove front item
 template <typename E>
 int SLinkedList<E>::size() const {				// list size
 	return n;
+}
+
+template <typename E>
+int SLinkedList<E>::NameNumber(string s) 
+{
+	SNode<E>* Node = head;
+	int count=0;
+	while (Node != NULL)
+	{
+		if (Node->elem.getName() == s) count++;
+		Node = Node->next;
+	}
+	return count;
+}
+template <typename E>
+int SLinkedList<E>::LowWeight() 
+{
+	int count=0;
+	SNode<E>* Node = head;
+	while (Node != NULL)
+	{
+		if (Node->elem.getWeight() < 2500) count++;
+		Node = Node->next;
+	}
+	return count;
+}
+
+string SLinkedList<Baby>::MostPopName()
+{
+	int Most = 1;
+	string MostPopular = "";
+	SNode<Baby>* Node = head;
+
+	while (Node != NULL)
+	{
+		string ComparisonName = Node->elem.getName();   //get a name to compare with;
+		SNode<Baby>* Next = head->next;
+		int Temp = 0;
+		if (MostPopular != ComparisonName)
+		{
+			while (Next != NULL)
+			{
+				if (ComparisonName == Next->elem.getName()) {
+					Temp += 1;
+				}
+				Next = Next->next;
+			}
+
+			if (Temp > Most)
+			{
+				Most = Temp;
+				MostPopular = ComparisonName;
+			}
+		}
+		Node = Node->next;
+
+	}
+	return MostPopular;
 }
